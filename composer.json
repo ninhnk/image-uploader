@@ -1,0 +1,26 @@
+{
+    "name": "stew/image-uploader",
+    "description": "Image uploads using Laravel Storage and conversion to format .webp",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Stew\\ImageUploader\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Stew\\ImageUploader\\Providers\\ImageUploaderServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "ninhnk",
+            "email": "ninhnk@icitech.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
