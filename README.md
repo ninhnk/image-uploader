@@ -77,3 +77,10 @@ $this->isBase64($strEndcode);
 ```angular2html
 $this->deleteImage($filePath);
 ```
+
+## The Public Disk
+- To create the symbolic link, you may use the storage:link Artisan command:
+
+```angular2html
+php artisan storage:link
+```
