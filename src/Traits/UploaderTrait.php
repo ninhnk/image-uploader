@@ -34,38 +34,42 @@ trait UploaderTrait
      */
     public function saveFileToStorage($fileName, $path): string
     {
-        $disk = $this->getImageDisk();
-        $directory = $this->getDirectory($path);
-        // Create a folder if it doesn't exist
-        if (!Storage::disk($disk)->exists($directory)) {
-            Storage::disk($disk)->makeDirectory($directory);
-        }
-        // Check if the file is in base64 format
-        if ($this->isBase64($fileName)) {
-            if (strpos($fileName, ';') !== false) {
-                list($type, $fileName) = explode(';', $fileName);
-                list(, $imageBase64) = explode(',', $fileName);
-                $extension = explode('/', $type)[1];
-            } else {
-                $extension = 'webp';
-                $imageBase64 = $fileName;
+        if (!empty($fileName)) {
+            $disk = $this->getImageDisk();
+            $directory = $this->getDirectory($path);
+            // Create a folder if it doesn't exist
+            if (!Storage::disk($disk)->exists($directory)) {
+                Storage::disk($disk)->makeDirectory($directory);
             }
-            $contents = base64_decode($imageBase64);
-            // Check if the image is not in webp format
-            if ($extension !== 'webp') {
+            // Check if the file is in base64 format
+            if ($this->isBase64($fileName)) {
+                if (strpos($fileName, ';') !== false) {
+                    list($type, $fileName) = explode(';', $fileName);
+                    list(, $imageBase64) = explode(',', $fileName);
+                    $extension = explode('/', $type)[1];
+                } else {
+                    $extension = 'webp';
+                    $imageBase64 = $fileName;
+                }
+                $contents = base64_decode($imageBase64);
+                // Check if the image is not in webp format
+                if ($extension !== 'webp') {
+                    $imageName = $this->convertImageToWebp($contents, $directory);
+                } else {
+                    $imageName = time() . '.' . $extension;
+                }
+            } else {
+                // The file is not in base64 format, so read its contents
+                $contents = file_get_contents($fileName->getRealPath());
                 $imageName = $this->convertImageToWebp($contents, $directory);
-            } else {
-                $imageName = time() . '.' . $extension;
             }
-        } else {
-            // The file is not in base64 format, so read its contents
-            $contents = file_get_contents($fileName->getRealPath());
-            $imageName = $this->convertImageToWebp($contents, $directory);
-        }
-        // Save the image to the specified directory on the selected disk
-        Storage::disk($disk)->put($directory . $imageName, $contents);
+            // Save the image to the specified directory on the selected disk
+            Storage::disk($disk)->put($directory . $imageName, $contents);
 
-        return $path . $imageName;
+            return $path . $imageName;
+        }
+
+        return '';
     }
 
     /**
