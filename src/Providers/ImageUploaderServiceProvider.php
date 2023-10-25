@@ -19,6 +19,9 @@ class ImageUploaderServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->publishes([
+            __DIR__ . '/../../database/seeders' => database_path('seeders'),
+        ]);
     }
 }

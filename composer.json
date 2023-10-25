@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Stew\\ImageUploader\\": "src/"
+            "Stew\\ImageUploader\\": "src/",
+            "Stew\\ImageUploader\\Database\\Seeders\\": "/database/seeders"
         }
     },
     "extra": {
