@@ -28,7 +28,7 @@ class DemoController extends Controller
         $input['thumbnail_img'] = $this->saveFileToStorage($request->thumbnail_img, '/uploads/');
         $input['original_name'] = $request->original_name;
         \DB::table('media')->truncate();
-        \App\Models\Media::create($input);
+        Media::create($input);
 
         return back()->with('success', 'Image uploaded successfully.');
     }
