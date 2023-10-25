@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-composer require stew/image-uploader
+composer require stew/image-uploader:dev-feature/dev-test
 ```
 
 ## Usage
