@@ -11,7 +11,7 @@ trait UploaderTrait
      */
     public function getImageDisk()
     {
-        return env('FILESYSTEM_DISK', 'local');
+        return config('filesystems.default');
     }
 
     /**
