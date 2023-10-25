@@ -126,3 +126,7 @@ php artisan storage:link
 ```
 
 ## Test
+
+```angular2html
+http://localhost:8000/demo
+```
