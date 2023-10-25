@@ -40,10 +40,16 @@ class YourController extends Controller
 $this->getImageDisk();
 ```
 
-- Make sure that your .env file or environment configuration has the FILESYSTEM_DISK variable set to the desired disk, for example:
+- Make sure that your `.env` file and config `filesystems.default` has the FILESYSTEM_DISK variable, for example:
+
 
 ```angular2html
 FILESYSTEM_DISK=local
+```
+
+
+``` angular2html
+'default' => env('FILESYSTEM_DISK', 'local'),
 ```
 
 #### Get Storage Directory
