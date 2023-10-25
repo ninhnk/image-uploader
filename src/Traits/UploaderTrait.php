@@ -52,11 +52,12 @@ trait UploaderTrait
                     $imageBase64 = $fileName;
                 }
                 $contents = base64_decode($imageBase64);
+                $size = $this->getSizeImage($contents);
                 // Check if the image is not in webp format
                 if ($extension !== 'webp') {
                     $imageName = $this->convertImageToWebp($contents, $directory);
                 } else {
-                    $imageName = time() . '.' . $extension;
+                    $imageName = time() . '-' . $size . '.' . $extension;
                 }
             } else {
                 // The file is not in base64 format, so read its contents
@@ -97,7 +98,8 @@ trait UploaderTrait
         $originalImage = imagecreatefromstring($imageString);
         // Converts a palette based image to true color
         imagepalettetotruecolor($originalImage);
-        $imageName = time() . '.webp';
+        $size = $this->getSizeImage($imageString);
+        $imageName = time() . '-' . $size . '.' . '.webp';
         // Convert file to webp
         imagewebp($originalImage, Storage::path($directory . $imageName));
         // Frees image object memory
@@ -121,5 +123,18 @@ trait UploaderTrait
         }
 
         return false;
+    }
+
+    /**
+     * @param $strDecodeBase64
+     * @return string
+     */
+    private function getSizeImage($strDecodeBase64): string
+    {
+        $image = imagecreatefromstring($strDecodeBase64);
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        return $width . 'x' . $height;
     }
 }
