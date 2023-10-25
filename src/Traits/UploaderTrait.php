@@ -45,7 +45,7 @@ trait UploaderTrait
     public function getDirectory($path)
     {
         $disk = $this->getImageDisk();
-        if ($disk === 'local') {
+        if (str_contains($disk, 'local')) {
             return 'public' . $path;
         }
         return $path;

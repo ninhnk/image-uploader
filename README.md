@@ -124,3 +124,5 @@ $this->deleteImage($filePath);
 ```angular2html
 php artisan storage:link
 ```
+
+## Test
