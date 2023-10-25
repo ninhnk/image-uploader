@@ -5,6 +5,7 @@ namespace Stew\ImageUploader\Traits;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 trait UploaderTrait
@@ -15,20 +16,23 @@ trait UploaderTrait
      */
     public function getImageDisk($table = 'settings')
     {
-        $disk = DB::table($table)
-            ->where('key', 'filesystem_disk')
-            ->first();
-        if (!empty($disk)) {
-            $setting = DB::table($table)
-                ->where('key', $disk->value)
+        if (Schema::hasTable($table))
+        {
+            $disk = DB::table($table)
+                ->where('key', 'filesystem_disk')
                 ->first();
+            if (!empty($disk)) {
+                $setting = DB::table($table)
+                    ->where('key', $disk->value)
+                    ->first();
 
-            config([
-                'filesystems.default' => $disk->value,
-            ]);
-            config([
-                'filesystems.disks.' . $setting->key  => json_decode($setting->value, true),
-            ]);
+                config([
+                    'filesystems.default' => $disk->value,
+                ]);
+                config([
+                    'filesystems.disks.' . $setting->key  => json_decode($setting->value, true),
+                ]);
+            }
         }
 
         return config('filesystems.default');

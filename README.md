@@ -52,6 +52,40 @@ FILESYSTEM_DISK=local
 'default' => env('FILESYSTEM_DISK', 'local'),
 ```
 
+- To use the database for storing configuration, you need to run a migration with the following command:
+
+```angular2html
+php artisan migrate
+```
+
+- The above command will create a "settings" table with the following structure:
+
+```angular2html
+Schema::create('settings', function (Blueprint $table) {
+    $table->id();
+    $table->string('key')->unique();
+    $table->text('value');
+    $table->timestamps();
+});
+```
+
+- We have provided sample data for you to test. You can seed the sample data with the following command.
+
+```angular2html
+php artisan db:seed --class=Stew\\ImageUploader\\Database\\Seeders\\SettingSeeder
+```
+
+- To use configuration from the "settings" table (by default), you can use the following function:
+
+```angular2html
+$this->getImageDisk('YOUR TABLE') // Default is "settings"
+```
+
+- If you want to customize the seeded data, you can use the following command:
+
+```angular2html
+php artisan vendor:publish --provider="Stew\ImageUploader\Providers\ImageUploaderServiceProvider"
+```
 #### Get Storage Directory
 
  - To obtain the storage directory for images, use the getDirectory($path) method.
